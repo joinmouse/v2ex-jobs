@@ -114,6 +114,10 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
 
   await context.env.DB.batch(batch);
 
+  // Clean up jobs older than 30 days
+  const thirtyDaysAgo = Math.floor(Date.now() / 1000) - 30 * 24 * 60 * 60;
+  await context.env.DB.prepare('DELETE FROM jobs WHERE created_at < ?').bind(thirtyDaysAgo).run();
+
   return Response.json({ ok: true, count: data.length }, {
     headers: { 'Access-Control-Allow-Origin': '*' },
   });

@@ -16,6 +16,10 @@ async function handleCron(env: Env): Promise<void> {
   );
 
   await env.DB.batch(batch);
+
+  // Clean up jobs older than 30 days
+  const thirtyDaysAgo = Math.floor(Date.now() / 1000) - 30 * 24 * 60 * 60;
+  await env.DB.prepare('DELETE FROM jobs WHERE created_at < ?').bind(thirtyDaysAgo).run();
 }
 
 function buildQuery(url: URL): { sql: string; params: unknown[] } {
