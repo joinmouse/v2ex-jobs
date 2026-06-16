@@ -1,0 +1,8 @@
+name = "v2ex-jobs"
+pages_build_output_dir = "dist"
+compatibility_date = "2025-06-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "v2ex-jobs"
+database_id = "231fb7f4-d742-4208-86c1-78bf32fd7f08"
